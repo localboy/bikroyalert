@@ -1,3 +1,22 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+
+class SearchPhrase(models.Model):
+    phrase = models.CharField(max_length=100, blank=True)
+    email_users = models.ManyToManyField(User, related_name="email_users")
+
+    def __str__(self):
+        return self.phrase
+
+
+class Thread(models.Model):
+    thread_id = models.CharField(max_length=20, blank=True)
+    title = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, blank=True)
+    text = models.TextField()
+    datetime = models.DateTimeField(blank=True)
+    search_phrase = models.ManyToManyField(SearchPhrase)
+
+    def __str__(self):
+        return self.title
